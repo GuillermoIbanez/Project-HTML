@@ -1,5 +1,5 @@
  <div>
-  <h2>🚀 HTML | CV</h2>
+  <h2>🚀 CV writting with HTML</h2>
 </div>   
   <h2>🛠️ Technologies</h2>
   <table>
