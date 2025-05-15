@@ -10,7 +10,7 @@
     <tr>
       <td align="left" valign="top">
         <ul style="margin-top: 0; padding-left: 20px; text-align: left;">
-          <li>Python</li>
+          <li>HTML</li>
         </ul>
       <td align="left" valign="top">
         <ul style="margin-top: 0; padding-left: 20px; text-align: left;">
@@ -37,7 +37,7 @@
 <div>
   <h2><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg" alt="Python Icon" width="32" height="32" style="vertical-align: -0.25em;"> Project Python Code</h2>
   <ul>
-    <li><a href="CODE_Machine_Learning_Credit_Cards.ipynb">Click here to check the Python code.</a> This notebook contains the machine learning implementation for credit card analysis.</li>
+    <li><a href="CODE_Machine_Learning_Credit_Cards.ipynb">Click here to check the HTML code.</a> This notebook contains the HTML code for the project.</li>
   </ul>
 </div>
 <div align="center">
