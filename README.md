@@ -1,9 +1,6 @@
-<div align="center">
-
-  <h1>🚀Guillermo Ibanez | HTML CV</h1>
-
-  <h1><img src="https://user-images.githubusercontent.com/74038190/221352987-68da234d-4d62-4e9d-9d7f-098dc657c2dc.gif" width="700" height="150"><h1>
-
+ <div>
+  <h2>🚀HTML | CV</h2>
+  <h3><a href="https://github.com/yourusername/project-repo">Credit Cards Customer Segmentation for a Marketing Campaing</a></h3>
 </div>   
   <h2>🛠️ Technologies</h2>
   <table>
