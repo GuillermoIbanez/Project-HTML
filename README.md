@@ -35,7 +35,7 @@
   </ul>
 </div>
 <div>
-  <h2><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="HTML5 Icon" width="32" height="32" style="vertical-align: -0.25em;"> Project HTML Code</h2>
+  <h2><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-plain.svg" alt="HTML5 Icon" width="32" height="32" style="vertical-align: -0.25em;"> Project HTML Code</h2>
   <ul>
     <li><a href="CODE_Machine_Learning_Credit_Cards.ipynb">Click here to check the HTML code.</a> This notebook contains the HTML code for the project.</li>
   </ul>
