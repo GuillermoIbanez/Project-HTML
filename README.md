@@ -5,7 +5,6 @@
   <table>
     <tr>
       <td align="center"><b>Programming</b></td>
-      <td align="center"><b>Libraries</b></td>
       <td align="center"><b>Tools & Platforms</b></td>
     </tr>
     <tr>
@@ -13,27 +12,8 @@
         <ul style="margin-top: 0; padding-left: 20px; text-align: left;">
           <li>Python</li>
         </ul>
-      </td>
       <td align="left" valign="top">
         <ul style="margin-top: 0; padding-left: 20px; text-align: left;">
-          <li>Matplotlib</li>
-          <li>Seaborn</li>
-          <li>Pandas</li>
-          <li>NumPy</li>
-          <li>StandardScaler</li>
-          <li>LabelEncoder</li>
-          <li>silhouette_samples</li>
-          <li>silhouette_score</li>
-          <li>Scikit-learn</li>
-          <li>KMeans</li>
-          <li>Pipeline</li>
-          <li>make_blobs</li>
-        </ul>
-      </td>
-      <td align="left" valign="top">
-        <ul style="margin-top: 0; padding-left: 20px; text-align: left;">
-          <li>GitLab</li>
-          <li>Google Colab</li>
           <li>Visual Studio Code 2</li>
         </ul>
       </td>
@@ -43,21 +23,9 @@
 <div>
   <h2>📜 Methodology</h2>
   <ul>
-    <li>Data cleaning: isnull, duplicates, deleted ID column,info, desc</li>
-    <li>Feature engineering </li>
-    <li>Correlation / heatmap</li>
-    <li>Distribution plotting</li>
-    <li>StandardScaler + Boxplot</li>
-    <li>Clustering: K-Means</li>
-    <li>Data plot K vs the SS error</li>
-    <li>Machine Learning: Elbow Method</li>
-    <li>Machine Learning: Silhouette Method</li>
-    <li>Machine Learning: Silhouette Score for each value of K</li>
-    <li>Visualizing Clusters using PCA</li>
-    <li>Merging clusters with data</li>
-    <li>Plot # observations by cluster</li>
-    <li>K-Means clustering pairplot</li>
-    <li>pairplots/boxplots/pie chart</li>
+    <li>########</li>
+    <li>####</li>
+    <li>#####</li>
   </ul>
 </div>
 <div>
@@ -83,11 +51,6 @@
   <ul>
     <li> Increase credit limit for Seg. 0. Send reminders to these customers of their credit availability.</li>
     <li> Increase the volume of purchases for Seg. 0. Offer these customers shops' deals.</li>
-    <li> Increase the use of installments for Seg. 0. Positioning ads in the check-out sections of shops.</li>
-    <li> Increase frequency of purchases for Seg. 0. Increase visibility/ads in shops or online targeting this specific group.</li>
-    <li> A closer monitoring of Seg. 2 is recommended. A reduction of credit limits available might be advisable.</li>  
-    <li> Monitor installments payments of Seg. 1. An adjustment to credit limits might be advisable.</li>
-    <li> Award Seg. 1 purchases frequency. Offering discounts could be an option here.</li>
   </ul>
 </div>
 <div align="center">
