@@ -40,12 +40,6 @@
     <li><a href="CODE_Machine_Learning_Credit_Cards.ipynb">Click here to check the Python code.</a> This notebook contains the machine learning implementation for credit card analysis.</li>
   </ul>
 </div>
-<div>
-  <h2><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Bar%20Chart.png" alt="Data Icon" width="32" height="32" style="vertical-align: -0.25em;"> Project Data Used</h2>
-  <ul>
-    <li><a href="ML_Card_Transactions_Data.csv">Click here to access the dataset.</a> This CSV file contains the credit card transaction data used in the analysis.</li>
-  </ul>
-</div>
 <div align="center">
   <p>Last updated: May 2025.</p>
 </div>
