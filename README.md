@@ -46,13 +46,6 @@
     <li><a href="ML_Card_Transactions_Data.csv">Click here to access the dataset.</a> This CSV file contains the credit card transaction data used in the analysis.</li>
   </ul>
 </div>
-<div>
-  <h2>📚 Recommendations for the marketing team</h2>
-  <ul>
-    <li> Increase credit limit for Seg. 0. Send reminders to these customers of their credit availability.</li>
-    <li> Increase the volume of purchases for Seg. 0. Offer these customers shops' deals.</li>
-  </ul>
-</div>
 <div align="center">
   <p>Last updated: May 2025.</p>
 </div>
