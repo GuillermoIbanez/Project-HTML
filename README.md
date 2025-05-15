@@ -1,6 +1,5 @@
  <div>
-  <h2>🚀HTML | CV</h2>
-  <h3><a href="https://github.com/yourusername/project-repo">Credit Cards Customer Segmentation for a Marketing Campaing</a></h3>
+  <h2>🚀 HTML | CV</h2>
 </div>   
   <h2>🛠️ Technologies</h2>
   <table>
