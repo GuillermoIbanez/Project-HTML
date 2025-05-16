@@ -1,0 +1,652 @@
+
+<!-- PDF converter process | using Puppeteer 
+
+
+(This opens the file in TextEdit - update the filename in line 9)
+
+        open -e convert.js
+
+ Run the Conversion
+
+        Run the script:
+node convert.js
+
+        Check the output:
+open your-cv.pdf
+
+-->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags for proper rendering -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guillermo Ibanez - CV</title>
+    <style>
+        @media print {
+          /* Basic settings for printing */
+          body {
+            margin: 0;
+            padding: 0;
+            background-color: white;
+            height: 100%;
+          }
+
+          html {
+            height: 100%;
+          }
+          
+          /* Prevent page breaks inside important elements */
+          .timeline-item, 
+          .education-item-right,
+          .profile-list li,
+          .timeline-description li,
+          .timeline-company,
+          .timeline-position,
+          .timeline-description ul {
+            page-break-inside: avoid;
+            break-inside: avoid;
+          }
+          
+          /* Prevent orphaned headings */
+          .right-section-title {
+            page-break-after: avoid;
+            break-after: avoid;
+          }
+          
+          /* Ensure elements stay with their headings */
+          .timeline-company + .timeline-position,
+          .right-section-title + .timeline,
+          .right-section-title + .education-grid,
+          .right-section-title + .profile-list {
+            page-break-before: avoid;
+            break-before: avoid;
+          }
+          
+          /* Remove shadows and adjust margins for printing */
+          .cv-container, .cv-container-page-two {
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            box-shadow: none;
+            height: 100vh; /* Make container fill the entire viewport height */
+          }
+          
+          /* Force the left column background to print using !important */
+          .left-column {
+            background-color: #1D4145 !important;
+            height: 100vh; /* Make left column fill the entire viewport height */
+          }
+          
+          /* Ensure text and other elements remain visible */
+          * {
+            visibility: visible !important;
+          }
+
+          /* Eliminate any bottom margin/padding causing space */
+          .page-one {
+            page-break-after: always;
+            height: 100vh;
+            margin-bottom: 0;
+            padding-bottom: 0;
+          }
+        }
+      </style>
+    <!-- CSS Styles -->
+    <style>
+        /* Global styles and reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f5f5f5;
+            height: 100%;
+        }
+        
+        /* Main container - styles shared by both pages */
+        .cv-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            min-height: 100vh; /* Use minimum height of viewport */
+        }
+        
+        /* First page specific (with page break) */
+        .page-one {
+            page-break-after: always; /* Force page break after first page */
+            height: 100vh; /* Full viewport height */
+        }
+        
+        /* Left column - dark teal background */
+        .left-column {
+            width: 30%; /* Reduced from 35% */
+            background-color: #1D4145; /* Dark teal color from template */
+            color: white;
+            position: relative;
+            height: 100%; /* Full height */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Photo container with diagonal cut */
+        .photo-container {
+            position: relative;
+            height: 250px; /* Reduced from 300px */
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        
+        .profile-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Diagonal overlay */
+        .diagonal-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #1D4145;
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+        
+        /* Content sections in left column */
+        .left-content {
+            padding: 20px; /* Restored to original padding */
+            flex-grow: 1; /* Allow content to grow */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Right column - white background */
+        .right-column {
+            width: 70%; /* Increased from 65% */
+            padding: 25px 20px; /* Reduced left padding from 30px to 20px */
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Second page header padding override */
+        .page-two .right-column {
+            padding-top: 25px;
+        }
+        
+        /* Section styling */
+        .section {
+            margin-bottom: 15px; /* Reduced from 20px */
+        }
+        
+        .section-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px; /* Reduced from 20px */
+            font-size: 11pt; /* Updated to size 14 equivalent */
+            color: white;
+            font-weight: bold;
+        }
+        
+        .right-section-title {
+            font-size: 14pt;
+            color: #333;
+            margin-bottom: 7px; /* Reduced from 20px */
+            font-weight: bold;
+        }
+        
+        .section-icon {
+            margin-right: 15px;
+            width: 30px; /* Increased from 24px */
+            height: 30px; /* Increased from 24px */
+            font-size: 26px; /* Made icons larger */
+            object-fit: contain;
+        }
+        
+        /* Contact section */
+        .contact-item {
+            margin-bottom: 10px; /* Reduced from 15px */
+            display: flex;
+            align-items: center;
+            font-size: 10pt; /* Updated to size 12 equivalent */
+        }
+        
+        .contact-icon {
+            margin-right: 10px;
+            font-size: 10pt; /* Updated to match section text */
+            color: #E0B990;
+        }
+        
+        /* Education section in the right column */
+        .education-grid {
+            display: grid;
+            gap: 0px;
+        }
+        
+        .education-item-right {
+            display: flex;
+            margin-bottom: 0px;
+        }
+        
+        .education-date-right {
+            font-weight: bold;
+            font-size: 10pt;
+            color: #1D4145;
+            margin-right: 15px;
+            min-width: 50px;
+        }
+        
+        .education-content {
+            flex-grow: 1;
+        }
+        
+        /* Education shared styles */
+        .degree {
+            font-weight: bold;
+            margin-bottom: 0;
+            display: inline-block;
+            font-size: 10pt;
+        }
+        .degree_details {
+            font-weight: italic;
+            margin-bottom: 0;
+            font-size: 9pt; /* Updated to size 9 equivalent */
+            color: #000000;   
+        }
+        
+        .school-location {
+            display: inline-block;
+            color: #666;
+            margin-left: 5px;
+            font-size: 10pt;
+        }
+        
+        .school-name {
+            font-style: italic;
+            margin-bottom: 0;
+            font-size: 10pt;
+        }
+        
+        /* Skills section */
+        .skills-list {
+            list-style-type: none;
+            font-size: 10pt; /* Updated to size 12 equivalent */
+        }
+        
+        .skills-list li {
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 20px;
+            font-size: 10pt;
+        }
+        
+        .skills-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #E0B990; /* Light orange accent color from template */
+        }
+        
+        /* Main content styling */
+        .name-title {
+            margin-bottom: 25px; /* Reduced from 40px */
+        }
+        
+        .name {
+            font-size: 20pt;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .job-title {
+            font-size: 16pt;
+            color: #555;
+        }
+        
+        /* Work experience timeline */
+        .timeline {
+            position: relative;
+            margin-left: 5px; /* Reduced from 20px */
+        }
+        
+        .timeline:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 2px;
+            height: calc(100% - 10px);
+            background-color: #ddd;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 20px; /* Reduced from 30px */
+            margin-bottom: 10px; /* Added space between job items */
+        }
+        
+        .timeline-dot {
+            position: absolute;
+            left: -8px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: #1D4145;
+            border: 3px solid #fff;
+        }
+        
+        .timeline-company {
+            font-weight: bold;
+            font-size: 10pt; /* Updated to size 13 equivalent */
+            margin-bottom: 0px;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .timeline-company-name {
+            font-weight: bold;
+            font-size: 10pt; /* Updated to size 13 equivalent */
+        }
+        .timeline-company-date-location {
+            font-weight: bold;
+            font-size: 10pt; /* Updated to size 13 equivalent */
+        }
+
+        
+        .timeline-location-date {
+            color: #555;
+            text-align: right;
+            font-size: 10pt; /* Updated to size 13 equivalent */
+        }
+        
+        .timeline-position {
+            font-weight: bold;
+            font-size: 10pt;
+            color: #555;
+            margin-bottom: 2px; /* Reduced from 10px to 2px */
+        }
+        
+        .timeline-description {
+            color: #000000;    
+        }
+        
+        .timeline-description ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .timeline-description li {
+            margin-bottom: 0px;
+            position: relative;
+            padding-left: 20px;
+            font-size: 9pt; /* Updated to size 9 equivalent */
+            color: #000000;
+        }
+        
+        .timeline-description li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #1D4145;
+        }
+        
+        /* Page number */
+        .page-number {
+            text-align: center;
+            padding: 10px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        
+        /* Profile list style */
+        .profile-list {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .profile-list li {
+            margin-bottom: 0px;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .profile-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #1D4145;
+            font-size: 9pt; /* Updated to size 9 equivalent */
+        }
+        
+        /* Language section styles */
+        .language-item {
+            font-size: 9pt; /* Updated to size 12 equivalent */
+            margin-bottom: 0px;
+        }
+
+        /* Optimize space usage - distribute content more efficiently */
+        .left-content .section {
+            flex-shrink: 0;
+        }
+
+        /* Make sure elements take up full height */
+        .left-content > div:last-child {
+            margin-bottom: 0;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- PAGE 1 -->
+    <div class="cv-container page-one">
+        <!-- Left Column -->
+        <div class="left-column">
+            <!-- Photo with diagonal cut -->
+            <div class="photo-container">
+                <img src="/Users/karol/Desktop/Guillermo/CV/CV%20photos/CV_G.Ibanez.png" alt="Guillermo Ibanez" class="profile-photo">
+                <div class="diagonal-overlay"></div>
+            </div>
+            
+            <!-- Left column content -->
+            <div class="left-content">
+                <!-- Contact Section -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-icon">📱</span>
+                        <span>Contact</span>
+                    </div>
+                    <div class="contact-item">
+                        guillermo.ibanez.albajar@gmail.com
+                    </div>
+                    <div class="contact-item">
+                        <span>🔗</span> <a href="https://linkedin.com/in/guillermo-ibanez-4626355a" style="color: white; text-decoration: none;">Open LinkedIn profile</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>🔗</span> <a href="https://github.com/GuillermoIbanez" style="color: white; text-decoration: none;">Open GitHub profile/projects</a>
+                    </div>
+                    <div class="contact-item">
+                        <span>🔗</span> <a href="https://github.com/GuillermoIbanez/CV_Guillermo_Ibanez" style="color: white; text-decoration: none;">Open Expanded CV</a>
+                    </div>
+                    <div class="contact-item">
+                        079 708 74 91
+                    </div>
+                    <div class="contact-item">
+                        Im Glattgarten 6, 8304 Wallisellen<br> Zürich, Switzerland
+                       </div>
+                    <div class="contact-item">
+                        Permit B | Spanish passport
+                    </div>
+                </div>
+                
+                <!-- Data Science Skills Section -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-icon">⚙️</span>
+                        <span>Data Skills</span>
+                    </div>
+                    <ul class="skills-list">
+                        <li><a href=" https://guillermoibanez.github.io/Visualisations_Portfolio/Visualisations_Presentation_Pitch_Book.pdf" style="color: white;text-decoration: none;">Open Visualizations Portfolio</a></li>
+                        <li>Dashboards</li>
+                        <li>Data Analysis</li>
+                        <li>Machine Learning</li>
+                        <li>Natural Language Processing</li>
+                        <li>AI Large Models</li>
+                        <li>Automation</li>
+                    </ul>
+                </div>
+                <!-- Languages Section -->
+                <div class="section">
+                    <div class="section-title">
+                        <span class="section-icon">🌐</span>
+                        <span>Languages</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language-name">English:</span>
+                        <span class="language-level">Bilingual</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language-name">Spanish:</span>
+                        <span class="language-level">Native</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language-name">French:</span>
+                        <span class="language-level">Fluent</span>
+                    </div>
+                    <div class="language-item">
+                        <span class="language-name">German:</span>
+                        <span class="language-level">Beginner (B2)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Column -->
+        <div class="right-column">
+            <!-- Name and Job Title -->
+            <div class="name-title">
+                <div class="name" style="color: #1D4145;">Guillermo Ibanez</div>
+                <div class="job-title" style="color: #000000;">Data & Financial Analyst</div>
+            </div>
+            
+            <!-- Profile Section -->
+            <div class="section">
+                <div class="right-section-title" style="color: #1D4145;">Profile</div>
+                <div style="color: #000000; text-align: justify;">
+                    <ul class="profile-list" style="color: #000000; text-align: justify;font-size: 9pt;">
+                        <li>Senior Financial Analyst with treasury and financial research experience, combining <b>financial analysis</b> expertise with advanced <b>Python</b> data analysis capabilities.</li>
+                        <li>Adept at identifying key trends through <b>data monitoring</b> and translating complex financial insights into <b>impactful presentations</b> for senior management, committees and colleagues.</li>
+                        <li>Creates compelling <b>visualizations</b> and dashboards using Python (including ML/NLP/AI implementations), SQL, and Power BI to drive data-informed decisions.</li>
+                        <li>Innovative thinker who excels in <b>communicating</b> complex financial concepts through effective data storytelling.</li>
+                       </ul>
+                </div>
+            </div>
+            
+            <!-- Work Experience -->
+            <div class="section">
+                <div class="right-section-title" style="color: #1D4145; margin-top: 0;">Experience</div>
+                <div class="timeline">
+                    <!-- Job 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-company">
+                            <div class="timeline-company-name" style="font-weight: bold; color: #1D4145;">Constructor Academy + Arthur Weber AG</div>
+                            <div class="timeline-company-date-location" style="color: #1D4145; white-space: nowrap;">Zürich, Switzerland | Feb 2025 - May 2025</div>
+                        </div>
+                        <div class="timeline-position" style="font-weight: normal; color: #000000; margin-bottom: 2px; font-style: italic;">Data Science & AI Full Time Intensive Program + Automation Project</div>
+                        <div class="timeline-description">
+                            <ul style="color: #000000; text-align: justify;">
+                                <li>Executed an AI Data Automation Project for Arthur Weber AG as final project.</li>
+                                <li>Course topics include: Data Analytics, Machine Learning, Artificial Intelligence & DevOps (Python/SQL programming).</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Job 2 - UBS -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-company">
+                            <div class="timeline-company-name" style="font-weight: bold; color: #1D4145;">UBS Switzerland</div>
+                            <div class="timeline-company-date-location" style="color: #1D4145; white-space: nowrap;">Zürich, Switzerland | Oct. 2020 – Dec. 2023</div>
+                        </div>
+                        <div class="timeline-position" style="font-weight: normal; color: #000000; margin-bottom: 2px; font-style: italic;">Credit Analyst of Financial Institutions | Wealth Management</div>
+                        <div class="timeline-description">
+                            <ul style="color: #000000; text-align: justify;">
+                                <li>Analysis and monitor the credit quality of a portfolio of financial institutions (balance sheet, P&L, central bank policies, capital markets trends, regulations, economics), publishing reports regularly. Interact with investment professionals and present my recommendations, research and financial views to colleagues and clients alike.</li>
+                                <li>Experience interacting regularly with senior management coordinating projects/research reports across multidisciplinary and international teams.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Job 3 - AIB -->
+                    <div class="timeline-item">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-company">
+                            <div class="timeline-company-name" style="font-weight: bold; color: #1D4145;">Allied Irish Banks (AIB)</div>
+                            <div class="timeline-company-date-location" style="color: #1D4145; white-space: nowrap;">Dublin, Ireland | August 2017 – Sep. 2020</div>
+                        </div>
+                        <div class="timeline-position" style="font-weight: normal; color: #000000; margin-bottom: 2px; font-style: italic;">Senior Credit Analyst, Bank & Country Credit Team | Treasury</div>
+                        <div class="timeline-description">
+                            <ul style="color: #000000; text-align: justify;">
+                                <li>Credit analysis and research of financial Institutions, Sovereigns, gov. Agencies, GSE, ABS, MBS, RMBS, Cov. Bonds and collateral/structure of secured instruments.</li>
+                                <li>Prepare credit reports and present/discuss them in credit risk committees and with senior management. Set and monitor exposure limits.</li>
+                                <li>Responsible for a quarterly financial report & its presentation. Take part in Projects where a credit/limits perspective is needed.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Education Section -->
+            <div class="section">
+                <div class="right-section-title" style="color: #1D4145;">Education</div>
+                <div class="education-grid">
+                    <div class="education-item-right">
+                        <div class="education-date-right" style="color: #1D4145;">2025</div>
+                        <div class="education-content" style="display: flex; flex-direction: column;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div class="degree" style="color: #1D4145;">Data Science & AI Full Time Intensive Program </div>
+                                <div class="school-location" style="color: #1D4145; text-align: right;">Zürich | Switzerland</div>
+                            </div>
+                            <div class="degree_details" style="color: #000000;">Topics covered include: Data Analytics, Machine Learning, Artificial Intelligence & DevOps. <a href="https://github.com/GuillermoIbanez/CV_Guillermo_Ibanez" target="_blank" style="text-decoration: none;">(Click here for more details on content covered)</a></div>
+                            <div class="school-name" style="color: #000000;">Constructor Academy | 4 months Full-Time | In person</div>
+                        </div>
+                    </div>
+                    <div class="education-item-right">
+                        <div class="education-date-right" style="color: #1D4145;">2015</div>
+                        <div class="education-content" style="display: flex; flex-direction: column;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div class="degree" style="color: #1D4145;">Master in finance</div>
+                                <div class="school-location" style="color: #1D4145; text-align: right;">Madrid | Spain</div>
+                            </div>
+                            <div class="school-name" style="color: #000000;">ICADE Business School</div>
+                        </div>
+                    </div>
+                    <div class="education-item-right" style="page-break-before: avoid;">
+                        <div class="education-date-right" style="color: #1D4145;">2013</div>
+                        <div class="education-content" style="display: flex; flex-direction: column;">
+                            <div style="display: flex; justify-content: space-between;">
+                                <div class="degree" style="color: #1D4145;">Bachelor of business administration</div>
+                                <div class="school-location" style="color: #1D4145; text-align: right;">Madrid | Spain</div>
+                            </div>
+                            <div class="school-name" style="color: #1D4145;">CEU San Pablo University | Boston University (exchange program)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
