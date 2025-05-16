@@ -41,7 +41,7 @@
 <div>
   <h2><img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Objects/Clipboard.png" alt="Presentation Icon" width="32" height="32" style="vertical-align: -0.25em;"> Project Preview</h2>
   <ul>
-    <li><a href="CV_Guillermo_Ibanez.pdf">Click here to see the PDF output.</a> The PDF demonstrates the clean layout with proper margins and full-height sidebar.</li>
+    <li><a href="Guillermo_Ibanez_CV.html">Click here to see the PDF output.</a> The PDF demonstrates the clean layout with proper margins and full-height sidebar.</li>
   </ul>
 </div>
 <div>
