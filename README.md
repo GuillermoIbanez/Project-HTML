@@ -1,6 +1,10 @@
  <div>
   <h2>🚀 CV writting with HTML</h2>
 </div>   
+  <h2>🎯 Objective</h2>
+<p>The project involved analyzing customers' credit card data to improve targeting for a new marketing campaign.</p>
+<p>I completed the project by myself in 2 days.</p>
+<div>
   <h2>🛠️ Technologies</h2>
   <table>
     <tr>
