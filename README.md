@@ -1,4 +1,3 @@
-CV-HTML-Template
 <div>
   <h2>🚀 CV Writing with HTML</h2>
 </div>
