@@ -2,7 +2,7 @@ CV-HTML-Template
 <div>
   <h2>🚀 CV Writing with HTML</h2>
 </div>
-🎯 Objective
+<h2>🎯 Objective</h2>
 <p>This project focused on creating an optimized HTML-based CV template that ensures proper printing and PDF conversion, with specific attention to layout and formatting issues.</p>
 <p>The main challenge was to address margin and layout problems when converting the HTML to PDF using Puppeteer, including eliminating blank spaces at page bottoms and ensuring the sidebar extends fully.</p>
 <div>
