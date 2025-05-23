@@ -47,7 +47,7 @@
 <div>
  <h2><img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/html5/html5-original-wordmark.svg" alt="HTML5 Icon" width="32" height="32" style="vertical-align: -0.25em;"> Project HTML Code</h2>
   <ul>
-    <li><a href="updated-cv.html">Click here to check the HTML code.</a> This file contains the complete HTML and CSS code with optimized layout styling.</li>
+    <li><a href="CV_HTML_code.html">Click here to check the HTML code.</a> This file contains the complete HTML and CSS code with optimized layout styling.</li>
   </ul>
 </div>
 🔑 Key Features
