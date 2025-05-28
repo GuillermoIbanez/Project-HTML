@@ -1,6 +1,13 @@
-<div>
-  <h2>🚀 CV Writing with HTML</h2>
+<div align="center">
+  <h1>Guillermo Ibanez</h1>
+  <p>
+  </p>
+  <h1>
+    🚀 CV Writing with HTML
+</h1>
+   <h1><img src="https://user-images.githubusercontent.com/74038190/221352987-68da234d-4d62-4e9d-9d7f-098dc657c2dc.gif" width="700" height="150"><h1>
 </div>
+ <div>
 <h2>🎯 Objective</h2>
 <p>This project focused on creating an optimized HTML-based CV template that ensures proper printing and PDF conversion, with specific attention to layout and formatting issues.</p>
 <p>The main challenge was to address margin and layout problems when converting the HTML to PDF using Puppeteer, including eliminating blank spaces at page bottoms and ensuring the sidebar extends fully.</p>
